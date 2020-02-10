@@ -113,7 +113,9 @@ export class Calculator extends Component {
     const { range } = this.state;
     if (range.length < 1) {
       return (
-        <div>No time to calculate</div>
+        <div className="empty-message">
+          <h2>Click "Add Time" to get started.</h2>
+        </div>
       )
     }
     const totalSeconds = range.reduce((a, b) => ({ difference: a.difference + b.difference }));
@@ -125,7 +127,9 @@ export class Calculator extends Component {
     .filter((v, i) => v !== "00" || i > 0)
     .join(":")
     return (
-      <div>Time: {display}</div>
+      <div>
+        <h2>Time: {display !== "00" && display}</h2>
+      </div>
     )
   }
 
@@ -133,7 +137,7 @@ export class Calculator extends Component {
     return (
     <>
       {this.renderCalculatorRow()}
-      <button type="button" onClick={this.addTimeRow}>Add time</button>
+      <button type="button" onClick={this.addTimeRow}>Add Time</button>
       {this.renderTime()}
     </>
     );
