@@ -1,7 +1,26 @@
-input:invalid {
-  border: 1px solid red;
-}
-
 .empty-message {
   padding: 8px;
+}
+
+.input-row {
+  display: flex;
+  margin-bottom: 4px;
+
+  > span {
+    align-self: flex-end;
+    
+    > input {
+      margin-right: 4px;
+    }
+
+    > input:invalid {
+      border: 1px solid red;
+    }
+
+    > label {
+      display: block;
+      margin-bottom: 4px;
+      text-align: left;
+    }
+  } 
 }

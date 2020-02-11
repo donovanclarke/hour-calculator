@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import uuid from "uuid";
 
-import { convertToSeconds, returnSplitTime } from "../../utilities";
+import { 
+  convertToSeconds,
+  returnSplitTime,
+  renderTimeDisplay,
+  isValidDate
+} from "../../utilities";
 
 import "./index.style.scss"; 
 
@@ -27,11 +32,13 @@ export class Calculator extends Component {
     const timeSheet = 
       range.filter(({ id: timeId }) => timeId === id)
       .map(item => {
-          item.start = returnSplitTime(value);
-          item.min = value;
+        item.start = returnSplitTime(value);
+        item.min = value;
+        item.isComplete =
+          isValidDate(item.start) && isValidDate(item.end);
         if (item.end !== 0) {
-            const endTime = new Date(item.end);
-            item.difference = convertToSeconds(returnSplitTime(value), endTime);
+          const endTime = new Date(item.end);
+          item.difference = convertToSeconds(returnSplitTime(value), endTime);
         }
         return item; 
       });
@@ -51,6 +58,8 @@ export class Calculator extends Component {
       .map(item => {
           item.end = returnSplitTime(value);
           item.max = value;
+        item.isComplete = 
+          isValidDate(item.start) && isValidDate(item.end);
         if (item.end !== 0 || item.start !== 0) {
           const startTime = new Date(item.start);
           const endTime = new Date(item.end);
@@ -67,9 +76,7 @@ export class Calculator extends Component {
   removeTimeRow(id) {
     const { range } = this.state;
     const timeSheet = range.filter(({ id: timeId }) => timeId !== id);
-    this.setState({
-    range: timeSheet
-    })
+    this.setState({ range: timeSheet })
   };
 
   addTimeRow() {
@@ -82,7 +89,8 @@ export class Calculator extends Component {
           end: 0,
           difference: 0,
           min: undefined,
-          max: undefined
+          max: undefined,
+          isComplete: false
         }
     ]
     }))
@@ -93,11 +101,13 @@ export class Calculator extends Component {
     return (
     <> 
       {range.map(({ id, max, min }) => (
-        <div key={id}>
+        <div key={id} className="input-row">
           <span>
+            <label className="label">Start</label>
             <input type="time" onChange={e => this.setStartTime(e, id)} max={max} />
           </span>
           <span>
+            <label className="label">End</label>
             <input type="time" onChange={e => this.setEndTime(e, id)} min={min} />
           </span>
           <span>
@@ -118,17 +128,15 @@ export class Calculator extends Component {
         </div>
       )
     }
-    const totalSeconds = range.reduce((a, b) => ({ difference: a.difference + b.difference }));
-    const { difference } = totalSeconds;
-    const hours = Math.floor(difference / 3600)
-    const minutes = Math.floor(difference / 60) % 60
-    const display = 
-    [hours, minutes].map(v => v < 10 ? "0" + v : v)
-    .filter((v, i) => v !== "00" || i > 0)
-    .join(":")
+
+    const display = renderTimeDisplay(range);
     return (
       <div>
-        <h2>Time: {display !== "00" && display}</h2>
+        <h2>
+          {display && display !== "00" ?
+            (`${display}`) : ("Start entering your time.")
+          }
+        </h2>
       </div>
     )
   }
