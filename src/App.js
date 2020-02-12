@@ -5,6 +5,7 @@ import Calculator from "./features/Calculator";
 import './App.css';
 
 function App() {
+  console.log("Made for someone special 🙃🙃🙃.")
   return (
     <div className="App">
       <header className="App-header">
