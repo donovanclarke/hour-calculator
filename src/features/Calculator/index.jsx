@@ -145,7 +145,15 @@ export class Calculator extends Component {
     return (
     <>
       {this.renderCalculatorRow()}
-      <button type="button" onClick={this.addTimeRow}>Add Time</button>
+      <div className="action-row">
+          <button 
+            type="button"
+            className="button"
+            onClick={this.addTimeRow}
+          >
+            Add Time
+          </button>
+      </div>
       {this.renderTime()}
     </>
     );
