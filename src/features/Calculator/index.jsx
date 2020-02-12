@@ -111,7 +111,13 @@ export class Calculator extends Component {
             <input type="time" onChange={e => this.setEndTime(e, id)} min={min} />
           </span>
           <span>
-            <button type="button" onClick={() => this.removeTimeRow(id)}>X</button>
+            <button
+              type="button"
+              onClick={() => this.removeTimeRow(id)}
+              className="action-button"
+            >
+              X
+            </button>
           </span>
         </div>
       ))}

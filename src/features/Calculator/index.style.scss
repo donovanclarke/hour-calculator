@@ -24,9 +24,17 @@
   > span {
     align-self: flex-end;
     
+    .action-button {
+      padding: 4px 8px;
+      font-size: 16px;
+      background-color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
     > input {
       margin-right: 4px;
       font-family: "Inter";
+      font-size: 16px;
     }
 
     > input:invalid {
