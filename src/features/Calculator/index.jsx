@@ -30,22 +30,18 @@ export class Calculator extends Component {
     const copy = range;
     const index = range.findIndex(({ id: timeId }) => timeId === id);
     const timeSheet = 
-      range.filter(({ id: timeId }) => timeId === id)
-      .map(item => {
-        item.start = returnSplitTime(value);
-        item.min = value;
-        item.isComplete =
-          isValidDate(item.start) && isValidDate(item.end);
-        if (item.end !== 0) {
-          const endTime = new Date(item.end);
-          item.difference = convertToSeconds(returnSplitTime(value), endTime);
-        }
-        return item; 
-      });
-    copy.splice(index, 1, ...timeSheet);
-    this.setState({
-    range: copy
-    })
+      range.filter(({ id: timeId }) => timeId === id);
+    const start = Object.assign({}, timeSheet[0]);
+    start.start = returnSplitTime(value);
+    start.min = value;
+    start.isComplete =
+      isValidDate(start.start) && isValidDate(start.end);
+    if(start.end !== 0) {
+      const endTime = new Date(start.end);
+      start.difference = convertToSeconds(returnSplitTime(value), endTime);
+    }
+    copy.splice(index, 1, start);
+    this.setState({ range: copy })
   };
 
   setEndTime(event, id) {
@@ -54,23 +50,19 @@ export class Calculator extends Component {
     const copy = range;
     const index = range.findIndex(({ id: timeId }) => timeId === id);
     const timeSheet = 
-      range.filter(({ id: timeId }) => timeId === id)
-      .map(item => {
-          item.end = returnSplitTime(value);
-          item.max = value;
-        item.isComplete = 
-          isValidDate(item.start) && isValidDate(item.end);
-        if (item.end !== 0 || item.start !== 0) {
-          const startTime = new Date(item.start);
-          const endTime = new Date(item.end);
-          item.difference = convertToSeconds(startTime, endTime);
-        }
-        return item; 
-      });
-    copy.splice(index, 1, ...timeSheet);
-    this.setState({
-    range: copy
-    })
+      range.filter(({ id: timeId }) => timeId === id);
+    const end = Object.assign({}, timeSheet[0]);
+    end.end = returnSplitTime(value);
+    end.max = value;
+    end.isComplete =
+      isValidDate(end.start) && isValidDate(end.end);
+    if (end.end !== 0 || end.start !== 0) {
+      const startTime = new Date(end.start);
+      const endTime = new Date(end.end);
+      end.difference = convertToSeconds(startTime, endTime);
+    }
+    copy.splice(index, 1, end);
+    this.setState({ range: copy })
   };
 
   removeTimeRow(id) {

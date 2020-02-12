@@ -1,11 +1,11 @@
 export const convertToSeconds = (start, end) => {
-  const diff = new Date(new Date(end) - new Date(start));
-  return (+diff.getUTCHours()) * 60 * 60 + (+diff.getUTCMinutes()) * 60;
+  const timeDifference = new Date(new Date(end) - new Date(start));
+  return (+timeDifference.getUTCHours()) * 60 * 60 + (+timeDifference.getUTCMinutes()) * 60;
 }
 
 export const returnSplitTime = time => {
-  const value = time.split(":");
-  return new Date(0, 0, 0, value[0], value[1]);
+  const splitTime = time.split(":");
+  return new Date(0, 0, 0, splitTime[0], splitTime[1]);
 }
 
 export const isValidDate = date => {
@@ -30,7 +30,7 @@ export const renderTimeDisplay = range => {
     return "Looks like you may have missed something.";
   }
 
-  return `Time: ${[hours, minutes].map(v => v < 10 ? "0" + v : v)
-    .filter((v, i) => v !== "00" || i > 0)
+  return `Time: ${[hours, minutes].map(digit => digit < 10 ? "0" + digit : digit)
+    .filter((time, index) => time !== "00" || index > 0)
     .join(":")}`
 }
