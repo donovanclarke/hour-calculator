@@ -31,11 +31,12 @@ export class Calculator extends Component {
     const index = range.findIndex(({ id: timeId }) => timeId === id);
     const timeSheet = 
       range.filter(({ id: timeId }) => timeId === id);
-    const start = Object.assign({}, timeSheet[0]);
-    start.start = returnSplitTime(value);
-    start.min = value;
-    start.isComplete =
-      isValidDate(start.start) && isValidDate(start.end);
+    const start = Object.assign({}, timeSheet[0], {
+      ...timeSheet[0],
+      start: returnSplitTime(value),
+      min: value,
+      isComplete: isValidDate(returnSplitTime(value)) && isValidDate(timeSheet[0].end) 
+    });
     if(start.end !== 0) {
       const endTime = new Date(start.end);
       start.difference = convertToSeconds(returnSplitTime(value), endTime);
@@ -51,11 +52,12 @@ export class Calculator extends Component {
     const index = range.findIndex(({ id: timeId }) => timeId === id);
     const timeSheet = 
       range.filter(({ id: timeId }) => timeId === id);
-    const end = Object.assign({}, timeSheet[0]);
-    end.end = returnSplitTime(value);
-    end.max = value;
-    end.isComplete =
-      isValidDate(end.start) && isValidDate(end.end);
+    const end = Object.assign({}, timeSheet[0], {
+      ...timeSheet[0],
+      end: returnSplitTime(value),
+      max: value,
+      isComplete: isValidDate(timeSheet[0].start) && isValidDate(value)
+    });
     if (end.end !== 0 || end.start !== 0) {
       const startTime = new Date(end.start);
       const endTime = new Date(end.end);
