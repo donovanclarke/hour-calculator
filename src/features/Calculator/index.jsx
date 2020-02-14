@@ -32,12 +32,12 @@ export class Calculator extends Component {
     const timeSheet = 
       range.filter(({ id: timeId }) => timeId === id);
     const isComplete = isValidDate(returnSplitTime(value)) && isValidDate(timeSheet[0].end)
-    const start = Object.assign({}, timeSheet[0], {
+    const start = {
       ...timeSheet[0],
       start: returnSplitTime(value),
       min: value,
       isComplete 
-    });
+    };
     if(start.end !== 0) {
       const endTime = new Date(start.end);
       start.difference = convertToSeconds(returnSplitTime(value), endTime);
@@ -54,12 +54,12 @@ export class Calculator extends Component {
     const timeSheet = 
       range.filter(({ id: timeId }) => timeId === id);
     const isComplete = isValidDate(timeSheet[0].start) && isValidDate(value)
-    const end = Object.assign({}, timeSheet[0], {
+    const end = {
       ...timeSheet[0],
       end: returnSplitTime(value),
       max: value,
       isComplete
-    });
+    };
     if (end.end !== 0 || end.start !== 0) {
       const startTime = new Date(end.start);
       const endTime = new Date(end.end);
