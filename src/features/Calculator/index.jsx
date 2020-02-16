@@ -112,7 +112,6 @@ export class Calculator extends Component {
         <div>
           <Lottie
             options={defaultOptions}
-            height={500}
           />
         </div>
       ) 
