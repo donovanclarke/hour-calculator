@@ -2,8 +2,31 @@
   padding: 8px;
 }
 
+.time-container {
+  height: 300px;
+  overflow: scroll;
+  padding: 0 20px;
+
+  .input-row {
+    display: flex;
+    margin-bottom: 4px;
+
+    >span {
+      align-self: flex-end;
+
+      .action-button {
+        padding: 4px 8px;
+        font-size: 16px;
+        background-color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 .action-row {
-  margin: 8px 0;
+  margin: 16px 0;
 
   .button {
     padding: 10px 22px;
@@ -15,38 +38,4 @@
     color: #fff;
     cursor: pointer;
   }
-}
-
-.input-row {
-  display: flex;
-  margin-bottom: 4px;
-
-  > span {
-    align-self: flex-end;
-    
-    .action-button {
-      padding: 4px 8px;
-      font-size: 16px;
-      background-color: #fff;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    > input {
-      margin-right: 4px;
-      font-family: "Inter";
-      font-size: 16px;
-    }
-
-    > input:invalid {
-      border: 1px solid red;
-    }
-
-    > label {
-      display: block;
-      margin-bottom: 4px;
-      text-align: left;
-      font-size: 12px;
-      font-weight: 500;
-    }
-  } 
 }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import uuid from "uuid";
 
+import InputTimePicker from "../../patterns/inputTimePicker";
 import { 
   convertToSeconds,
   returnSplitTime,
@@ -93,22 +94,22 @@ export class Calculator extends Component {
   renderCalculatorRow() {
     const { range } = this.state;
     return (
-    <> 
+    <div className="time-container"> 
       {range.map(({ id, max, min }) => (
         <div key={id} className="input-row">
           <span>
-            <label className="label">Start</label>
-            <input
-              type="time"
+            <InputTimePicker
+              label="Start"
               onChange={e => this.setStartTime(e, id)}
-              max={max} />
+              max={max}
+            />
           </span>
           <span>
-            <label className="label">End</label>
-            <input
-              type="time"
+            <InputTimePicker
+              label="End"
               onChange={e => this.setEndTime(e, id)}
-              min={min} />
+              min={min}
+            />
           </span>
           <span>
             <button
@@ -121,7 +122,7 @@ export class Calculator extends Component {
           </span>
         </div>
       ))}
-    </>
+    </div>
     )
   }
 
