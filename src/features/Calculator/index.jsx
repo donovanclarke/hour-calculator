@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import uuid from "uuid";
+import Lottie from 'react-lottie';
+import { 
+  TransitionGroup, 
+  CSSTransition 
+} from "react-transition-group";
 
 import InputTimePicker from "../../patterns/inputTimePicker";
+import * as animationData from "../../assets/animation/index.json";
 import { 
   convertToSeconds,
   returnSplitTime,
@@ -93,35 +99,61 @@ export class Calculator extends Component {
 
   renderCalculatorRow() {
     const { range } = this.state;
-    return (
-    <div className="time-container"> 
-      {range.map(({ id, max, min }) => (
-        <div key={id} className="input-row">
-          <span>
-            <InputTimePicker
-              label="Start"
-              onChange={e => this.setStartTime(e, id)}
-              max={max}
-            />
-          </span>
-          <span>
-            <InputTimePicker
-              label="End"
-              onChange={e => this.setEndTime(e, id)}
-              min={min}
-            />
-          </span>
-          <span>
-            <button
-              type="button"
-              onClick={() => this.removeTimeRow(id)}
-              className="action-button"
-            >
-              X
-            </button>
-          </span>
+    const defaultOptions = {
+      loop: true,
+      autoplay: true,
+      animationData: animationData.default,
+      rendererSettings: {
+        preserveAspectRatio: 'xMidYMid slice'
+      }
+    };
+    if (range.length === 0) {
+      return (
+        <div>
+          <Lottie
+            options={defaultOptions}
+            height={500}
+          />
         </div>
-      ))}
+      ) 
+    }
+    return (
+    <div className="time-container">
+      <TransitionGroup>
+        {range.map(({ id, max, min }) => (
+          <CSSTransition
+            key={id}
+            timeout={300}
+            classNames="animation"
+          >
+            <div className="input-row">
+              <span>
+                <InputTimePicker
+                  label="Start"
+                  onChange={e => this.setStartTime(e, id)}
+                  max={max}
+                />
+              </span>
+              <span>
+                <InputTimePicker
+                  label="End"
+                  onChange={e => this.setEndTime(e, id)}
+                  min={min}
+                />
+              </span>
+              <span>
+                <button
+                  type="button"
+                  onClick={() => this.removeTimeRow(id)}
+                  className="action-button"
+                >
+                  X
+          </button>
+              </span>
+            </div>
+          </CSSTransition>
+        ))}
+      </TransitionGroup> 
     </div>
     )
   }
@@ -152,15 +184,15 @@ export class Calculator extends Component {
     return (
     <>
       {this.renderCalculatorRow()}
-      <div className="action-row">
-          <button 
+        <div className="action-row">
+          <button
             type="button"
             className="button"
             onClick={this.addTimeRow}
           >
             Add Time
-          </button>
-      </div>
+        </button>
+        </div>
       {this.renderTime()}
     </>
     );
