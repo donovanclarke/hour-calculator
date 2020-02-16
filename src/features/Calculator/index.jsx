@@ -25,12 +25,11 @@ export class Calculator extends Component {
   }
 
   setStartTime(event, id) {
-    const { range } = this.state;
+    const { range: time  } = this.state;
     const { target: { value } } = event;
-    const copy = range;
-    const index = range.findIndex(({ id: timeId }) => timeId === id);
+    const range = Object.assign([], time);
     const timeSheet = 
-      range.filter(({ id: timeId }) => timeId === id);
+      time.filter(({ id: timeId }) => timeId === id);
     const isComplete = isValidDate(returnSplitTime(value)) && isValidDate(timeSheet[0].end)
     const start = {
       ...timeSheet[0],
@@ -42,17 +41,16 @@ export class Calculator extends Component {
       const endTime = new Date(start.end);
       start.difference = convertToSeconds(returnSplitTime(value), endTime);
     }
-    copy.splice(index, 1, start);
-    this.setState({ range: copy })
+    range.splice(time.findIndex(({ id: timeId }) => timeId === id), 1, start);
+    this.setState({ range })
   };
 
   setEndTime(event, id) {
-    const { range } = this.state;
+    const { range: time } = this.state;
     const { target: { value } } = event;
-    const copy = range;
-    const index = range.findIndex(({ id: timeId }) => timeId === id);
+    const range = Object.assign([], time);
     const timeSheet = 
-      range.filter(({ id: timeId }) => timeId === id);
+      time.filter(({ id: timeId }) => timeId === id);
     const isComplete = isValidDate(timeSheet[0].start) && isValidDate(value)
     const end = {
       ...timeSheet[0],
@@ -65,8 +63,8 @@ export class Calculator extends Component {
       const endTime = new Date(end.end);
       end.difference = convertToSeconds(startTime, endTime);
     }
-    copy.splice(index, 1, end);
-    this.setState({ range: copy })
+    range.splice(time.findIndex(({ id: timeId }) => timeId === id), 1, end);
+    this.setState({ range })
   };
 
   removeTimeRow(id) {
@@ -100,11 +98,17 @@ export class Calculator extends Component {
         <div key={id} className="input-row">
           <span>
             <label className="label">Start</label>
-            <input type="time" onChange={e => this.setStartTime(e, id)} max={max} />
+            <input
+              type="time"
+              onChange={e => this.setStartTime(e, id)}
+              max={max} />
           </span>
           <span>
             <label className="label">End</label>
-            <input type="time" onChange={e => this.setEndTime(e, id)} min={min} />
+            <input
+              type="time"
+              onChange={e => this.setEndTime(e, id)}
+              min={min} />
           </span>
           <span>
             <button
