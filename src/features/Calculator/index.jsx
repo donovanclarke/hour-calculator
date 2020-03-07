@@ -34,7 +34,7 @@ export class Calculator extends Component {
   setStartTime(event, id) {
     const { range: time  } = this.state;
     const { target: { value } } = event;
-    const range = Object.assign([], time);
+    const range = [ ...time ];
     const timeSheet = 
       time.filter(({ id: timeId }) => timeId === id);
     const isComplete = isValidDate(returnSplitTime(value)) && isValidDate(timeSheet[0].end)
@@ -42,12 +42,12 @@ export class Calculator extends Component {
       ...timeSheet[0],
       start: returnSplitTime(value),
       min: value,
-      isComplete 
+      isComplete,
+      difference: 
+        timeSheet[0].end !== 0 ? 
+          convertToSeconds(returnSplitTime(value), new Date(timeSheet[0].end))
+        : 0
     };
-    if(start.end !== 0) {
-      const endTime = new Date(start.end);
-      start.difference = convertToSeconds(returnSplitTime(value), endTime);
-    }
     range.splice(time.findIndex(({ id: timeId }) => timeId === id), 1, start);
     this.setState({ range })
   };
@@ -55,20 +55,21 @@ export class Calculator extends Component {
   setEndTime(event, id) {
     const { range: time } = this.state;
     const { target: { value } } = event;
-    const range = Object.assign([], time);
+    const range = [ ...time ];
     const timeSheet = 
       time.filter(({ id: timeId }) => timeId === id);
     const isComplete = isValidDate(timeSheet[0].start) && isValidDate(value)
-    const end = {
+    let end = {
       ...timeSheet[0],
       end: returnSplitTime(value),
       max: value,
       isComplete
     };
     if (end.end !== 0 || end.start !== 0) {
-      const startTime = new Date(end.start);
-      const endTime = new Date(end.end);
-      end.difference = convertToSeconds(startTime, endTime);
+      end = {
+        ...end,
+        difference: convertToSeconds(new Date(end.start), new Date(end.end))
+      }
     }
     range.splice(time.findIndex(({ id: timeId }) => timeId === id), 1, end);
     this.setState({ range })
@@ -104,7 +105,7 @@ export class Calculator extends Component {
       autoplay: true,
       animationData: animationData.default,
       rendererSettings: {
-        preserveAspectRatio: 'xMidYMid slice'
+        preserveAspectRatio: "xMidYMid slice"
       }
     };
     if (range.length === 0) {
