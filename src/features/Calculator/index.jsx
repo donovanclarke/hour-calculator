@@ -113,6 +113,7 @@ export class Calculator extends Component {
         <div>
           <Lottie
             options={defaultOptions}
+            isClickToPauseDisabled
           />
         </div>
       ) 
