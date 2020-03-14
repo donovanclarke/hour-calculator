@@ -1,14 +1,8 @@
 import React, { Component } from "react";
 import uuid from "uuid";
-import Lottie from "react-lottie-wrapper";
-import { 
-  TransitionGroup, 
-  CSSTransition 
-} from "react-transition-group";
 
-import InputTimePicker from "../../patterns/inputTimePicker";
 import CalculatorDisplay from "./sub-features/CalculatorDisplay";
-import * as animationData from "../../assets/animation/index.json";
+import CalculatorRow from "./sub-features/CalculatorRow";
 import { 
   convertToSeconds,
   returnSplitTime,
@@ -23,7 +17,6 @@ export class Calculator extends Component {
     this.state = {
       range: []
     }
-    this.renderCalculatorRow = this.renderCalculatorRow.bind(this);
     this.addTimeRow = this.addTimeRow.bind(this);
     this.removeTimeRow = this.removeTimeRow.bind(this);
     this.setStartTime = this.setStartTime.bind(this);
@@ -97,81 +90,25 @@ export class Calculator extends Component {
     }))
   };
 
-  renderCalculatorRow() {
-    const { range } = this.state;
-    const defaultOptions = {
-      loop: true,
-      autoplay: true,
-      animationData: animationData.default,
-      rendererSettings: {
-        preserveAspectRatio: "xMidYMid slice"
-      }
-    };
-    if (range.length === 0) {
-      return (
-        <div>
-          <Lottie
-            options={defaultOptions}
-            isClickToPauseDisabled
-          />
-        </div>
-      ) 
-    }
-    return (
-    <div className="time-container">
-      <TransitionGroup>
-        {range.map(({ id, max, min }) => (
-          <CSSTransition
-            key={id}
-            timeout={300}
-            classNames="animation"
-          >
-            <div className="input-row">
-              <span>
-                <InputTimePicker
-                  label="Start"
-                  onChange={e => this.setStartTime(e, id)}
-                  max={max}
-                />
-              </span>
-              <span>
-                <InputTimePicker
-                  label="End"
-                  onChange={e => this.setEndTime(e, id)}
-                  min={min}
-                />
-              </span>
-              <span>
-                <button
-                  type="button"
-                  onClick={() => this.removeTimeRow(id)}
-                  className="action-button"
-                >
-                  X
-          </button>
-              </span>
-            </div>
-          </CSSTransition>
-        ))}
-      </TransitionGroup> 
-    </div>
-    )
-  }
-
   render() {
     const { range } = this.state;
     return (
     <>
-      {this.renderCalculatorRow()}
-        <div className="action-row">
-          <button
-            type="button"
-            className="button"
-            onClick={this.addTimeRow}
-          >
-            Add Time
-        </button>
-        </div>
+      <CalculatorRow
+        range={range}
+        begin={this.setStartTime}
+        end={this.setEndTime}
+        remove={this.removeTimeRow}
+      />
+      <div className="action-row">
+        <button
+          type="button"
+          className="button"
+          onClick={this.addTimeRow}
+        >
+          Add Time
+      </button>
+      </div>
       <CalculatorDisplay range={range} />
     </>
     );
