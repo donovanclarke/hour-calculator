@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { renderTimeDisplay } from "../../../../utilities";
 
@@ -22,6 +23,10 @@ export const CalculatorDisplay = ({ range }) => {
         </h2>
       </div>
     )
+  }
+
+  CalculatorDisplay.propTypes = {
+    range: PropTypes.array.isRequired
   }
 
   export default CalculatorDisplay;

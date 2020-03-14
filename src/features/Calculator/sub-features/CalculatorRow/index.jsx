@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
     TransitionGroup,
     CSSTransition
@@ -68,6 +69,13 @@ export const CalculatorRow = ({ range, begin, end, remove }) => {
       </TransitionGroup>
     </div>
   )
+}
+
+CalculatorRow.propTypes = {
+  range: PropTypes.array.isRequired,
+  begin: PropTypes.func.isRequired,
+  end: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired
 }
 
 export default CalculatorRow;
