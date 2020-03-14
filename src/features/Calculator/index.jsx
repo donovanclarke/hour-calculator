@@ -7,11 +7,11 @@ import {
 } from "react-transition-group";
 
 import InputTimePicker from "../../patterns/inputTimePicker";
+import CalculatorDisplay from "./sub-features/CalculatorDisplay";
 import * as animationData from "../../assets/animation/index.json";
 import { 
   convertToSeconds,
   returnSplitTime,
-  renderTimeDisplay,
   isValidDate
 } from "../../utilities";
 
@@ -24,7 +24,6 @@ export class Calculator extends Component {
       range: []
     }
     this.renderCalculatorRow = this.renderCalculatorRow.bind(this);
-    this.renderTime = this.renderTime.bind(this);
     this.addTimeRow = this.addTimeRow.bind(this);
     this.removeTimeRow = this.removeTimeRow.bind(this);
     this.setStartTime = this.setStartTime.bind(this);
@@ -159,29 +158,8 @@ export class Calculator extends Component {
     )
   }
 
-  renderTime() {
-    const { range } = this.state;
-    if (range.length < 1) {
-      return (
-        <div className="empty-message">
-          <h2>Click "Add Time" to get started.</h2>
-        </div>
-      )
-    }
-
-    const display = renderTimeDisplay(range);
-    return (
-      <div>
-        <h2>
-          {display && display !== "00" ?
-            (`${display}`) : ("Start entering your time.")
-          }
-        </h2>
-      </div>
-    )
-  }
-
   render() {
+    const { range } = this.state;
     return (
     <>
       {this.renderCalculatorRow()}
@@ -194,7 +172,7 @@ export class Calculator extends Component {
             Add Time
         </button>
         </div>
-      {this.renderTime()}
+      <CalculatorDisplay range={range} />
     </>
     );
   }
