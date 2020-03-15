@@ -40,20 +40,16 @@ export const CalculatorRow = ({ range, begin, end, remove }) => {
             classNames="animation"
           >
             <div className="input-row">
-              <span>
-                <InputTimePicker
+              <InputTimePicker
                 label="Start"
                 onChange={e => begin(e, id)}
                 max={max}
-                />
-              </span>
-              <span>
-                <InputTimePicker
-                  label="End"
-                  onChange={e => end(e, id)}
-                  min={min}
-                />
-              </span>
+              />
+              <InputTimePicker
+                label="End"
+                onChange={e => end(e, id)}
+                min={min}
+              />
               <span>
                 <button
                   type="button"
