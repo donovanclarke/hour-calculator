@@ -41,7 +41,7 @@ export class Calculator extends Component {
         : 0
     };
     range.splice(time.findIndex(({ id: timeId }) => timeId === id), 1, start);
-    this.setState({ range })
+    this.setState({ range });
   };
 
   setEndTime(event, id) {
@@ -64,13 +64,13 @@ export class Calculator extends Component {
       }
     }
     range.splice(time.findIndex(({ id: timeId }) => timeId === id), 1, end);
-    this.setState({ range })
+    this.setState({ range });
   };
 
   removeTimeRow(id) {
-    const { range } = this.state;
-    const timeSheet = range.filter(({ id: timeId }) => timeId !== id);
-    this.setState({ range: timeSheet })
+    const { range: stateRange } = this.state;
+    const range = stateRange.filter(({ id: timeId }) => timeId !== id);
+    this.setState({ range });
   };
 
   addTimeRow() {
