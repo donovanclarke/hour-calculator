@@ -29,7 +29,7 @@ export class Calculator extends Component {
     const range = [ ...time ];
     const timeSheet = 
       time.filter(({ id: timeId }) => timeId === id);
-    const isComplete = isValidDate(returnSplitTime(value)) && isValidDate(timeSheet[0].end)
+    const isComplete = isValidDate(returnSplitTime(value)) && isValidDate(timeSheet[0].end);
     const start = {
       ...timeSheet[0],
       start: returnSplitTime(value),
@@ -50,7 +50,7 @@ export class Calculator extends Component {
     const range = [ ...time ];
     const timeSheet = 
       time.filter(({ id: timeId }) => timeId === id);
-    const isComplete = isValidDate(timeSheet[0].start) && isValidDate(value)
+    const isComplete = isValidDate(timeSheet[0].start) && isValidDate(value);
     let end = {
       ...timeSheet[0],
       end: returnSplitTime(value),
@@ -87,7 +87,7 @@ export class Calculator extends Component {
           isComplete: false
         }
     ]
-    }))
+    }));
   };
 
   render() {
